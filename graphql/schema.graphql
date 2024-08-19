@@ -1,5 +1,8 @@
 type Query{
-  users: [User] @all
+  # users: [User] @all
+  users: [User] @paginate
+  user (id:ID @eq): User @find 
+  # not we need @eq for find by id
 }
 type User{
   id: ID,
