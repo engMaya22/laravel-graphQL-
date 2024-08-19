@@ -7,8 +7,9 @@ type Query{
 
 type Mutation {
   createUser(name: String! ,  email: String! , password: String!): User! @create
-  updateUser(id: ID!, name: String , email: String): User! @update
-  upsertUser(id: ID, name: String!, email: String ,password: String!): User! @upsert
+  updateUser(id: ID!, name: String , email: String): User! @update 
+  # update name or email
+  upsertUser(id: ID, name: String!, email: String! ,password: String!): User! @upsert
   deleteUser(id: ID! @whereKey): User @delete
 
 }
