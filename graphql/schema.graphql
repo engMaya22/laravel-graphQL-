@@ -4,13 +4,23 @@ type Query{
   user (id:ID @eq): User @find 
   # not we need @eq for find by id
   posts: [Post!]! @all
+  post (id:ID @eq): Post @find
 }
 
 type Mutation {
-  createUser(name: String! ,  email: String! , password: String!): User! @create
-  updateUser(id: ID!, name: String , email: String): User! @update 
+  createUser(name: String! ,
+             email: String! @rules(apply: ["unique:users"]) ,
+             password: String! @rules(apply: ["min:6"]))
+             : User! @create
+  updateUser(id: ID!,
+              email: String! @rules(apply: ["unique:users"]) ,
+             password: String! @rules(apply: ["min:6"]))
+             : User! @update 
   # update name or email
-  upsertUser(id: ID, name: String!, email: String! ,password: String!): User! @upsert
+  upsertUser(id: ID, 
+            email: String! @rules(apply: ["unique:users"]) ,
+             password: String! @rules(apply: ["min:6"]))
+             : User! @upsert
   deleteUser(id: ID! @whereKey): User @delete
 
 }
@@ -18,7 +28,8 @@ type Mutation {
 type User{
   id: ID,
   name: String!,
-  email: String!
+  email: String!,
+  posts: [Post]! @hasMany
 }
 type Post{
   id:  ID,
