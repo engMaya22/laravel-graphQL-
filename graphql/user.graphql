@@ -1,0 +1,32 @@
+extend type Query{
+   # users: [User] @all
+  users: [User!]! @paginate
+  user (id:ID @eq): User @find 
+  # not we need @eq for find by id
+ 
+}
+
+type Mutation {
+  createUser(name: String! ,
+             email: String! @rules(apply: ["unique:users"]) ,
+             password: String! @rules(apply: ["min:6"]))
+             : User! @create
+  updateUser(id: ID!,
+              email: String! @rules(apply: ["unique:users"]) ,
+             password: String! @rules(apply: ["min:6"]))
+             : User! @update 
+  # update name or email
+  upsertUser(id: ID, 
+            email: String! @rules(apply: ["unique:users"]) ,
+             password: String! @rules(apply: ["min:6"]))
+             : User! @upsert
+  deleteUser(id: ID! @whereKey): User @delete
+
+}
+
+type User{
+  id: ID,
+  name: String!,
+  email: String!,
+  posts: [Post]! @hasMany
+}
