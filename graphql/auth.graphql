@@ -2,3 +2,7 @@ extend type Mutation {
   login(email: String!, password: String! , device_name:String!): String 
 #   we expect string  token
 }
+extend type Query {
+  me: User! @auth @guard
+  # note guard 
+}
