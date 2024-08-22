@@ -1,3 +1,6 @@
+scalar Upload
+  @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Upload")
+
 extend type Query{
    # users: [User] @all
   users: [User!]! @paginate
@@ -22,11 +25,20 @@ type Mutation {
              : User! @upsert
   deleteUser(id: ID! @whereKey): User @delete
 
+  "Upload a file that is publicly available."
+  updateUserAvatar(image: Upload! , id:ID!): User 
+  # we need to add id user which i update its image 
 }
 
 type User{
   id: ID,
   name: String!,
   email: String!,
-  posts: [Post]! @hasMany
+  posts: [Post]! @hasMany,
+  avatar: String,
 }
+
+
+
+
+
